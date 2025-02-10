@@ -40,11 +40,37 @@ def jugada_ganadora(movimientos_jugador):
     Parámetros:
         * movimientos_jugador: dict con el conjunto de movimientos de un jugador
     """
-    #Comprobamos si hay 3 fichas en una fila
+    #Comprobamos si todas las fichas estan en una fila
     for fila in movimientos_jugador:
         movimientos_columna = movimientos_jugador[fila]
-        if len(movimientos_columna)==3:
+        if len(movimientos_columna)==n:
             return True
+        
+    # Comprobamos si todas las fichas estan en la misma columna
+    for col in range(n):
+        contador = 0
+        for fila in range(n):
+            if fila in movimientos_jugador and col in movimientos_jugador[fila]:
+                contador += 1
+        if contador == n:  # Si el jugador tiene todas las filas ocupadas en esta columna
+            return True
+    
+    # Comprobar si el jugador ha ganado en la diagonal principal (↘)
+    contador = 0
+    for i in range(n):
+        if i in movimientos_jugador and i in movimientos_jugador[i]:
+            contador += 1
+    if contador == n:
+        return True
+
+    # Comprobar si el jugador ha ganado en la diagonal secundaria (↙)
+    contador = 0
+    for i in range(n):
+        if i in movimientos_jugador and (n - 1 - i) in movimientos_jugador[i]:
+            contador += 1
+    if contador == n:
+        return True
+    
     return False
 
 def mostrar_tablero(tablero):
